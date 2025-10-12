@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B285882C2E9B807400D87ED1 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B285882B2E9B807400D87ED1 /* SDWebImageSwiftUI */; };
+		B285889B2E9B962200D87ED1 /* SwiftfulUI in Frameworks */ = {isa = PBXBuildFile; productRef = B285889A2E9B962200D87ED1 /* SwiftfulUI */; };
+		B285889E2E9B96A200D87ED1 /* SwiftfulRouting in Frameworks */ = {isa = PBXBuildFile; productRef = B285889D2E9B96A200D87ED1 /* SwiftfulRouting */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		B28588142E9B7C3000D87ED1 /* SwiftfulSwiftUIinPracticeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftfulSwiftUIinPracticeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +29,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B285889B2E9B962200D87ED1 /* SwiftfulUI in Frameworks */,
+				B285889E2E9B96A200D87ED1 /* SwiftfulRouting in Frameworks */,
+				B285882C2E9B807400D87ED1 /* SDWebImageSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +74,9 @@
 			);
 			name = SwiftfulSwiftUIinPracticeApp;
 			packageProductDependencies = (
+				B285882B2E9B807400D87ED1 /* SDWebImageSwiftUI */,
+				B285889A2E9B962200D87ED1 /* SwiftfulUI */,
+				B285889D2E9B96A200D87ED1 /* SwiftfulRouting */,
 			);
 			productName = SwiftfulSwiftUIinPracticeApp;
 			productReference = B28588142E9B7C3000D87ED1 /* SwiftfulSwiftUIinPracticeApp.app */;
@@ -94,6 +106,11 @@
 			);
 			mainGroup = B285880B2E9B7C3000D87ED1;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				B285882A2E9B807400D87ED1 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				B28588992E9B962200D87ED1 /* XCRemoteSwiftPackageReference "SwiftfulUI" */,
+				B285889C2E9B96A200D87ED1 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B28588152E9B7C3000D87ED1 /* Products */;
 			projectDirPath = "";
@@ -320,6 +337,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B285882A2E9B807400D87ED1 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.3;
+			};
+		};
+		B28588992E9B962200D87ED1 /* XCRemoteSwiftPackageReference "SwiftfulUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+		B285889C2E9B96A200D87ED1 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulRouting.git";
+			requirement = {
+				kind = exactVersion;
+				version = 5.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B285882B2E9B807400D87ED1 /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B285882A2E9B807400D87ED1 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
+		B285889A2E9B962200D87ED1 /* SwiftfulUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B28588992E9B962200D87ED1 /* XCRemoteSwiftPackageReference "SwiftfulUI" */;
+			productName = SwiftfulUI;
+		};
+		B285889D2E9B96A200D87ED1 /* SwiftfulRouting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B285889C2E9B96A200D87ED1 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */;
+			productName = SwiftfulRouting;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B285880C2E9B7C3000D87ED1 /* Project object */;
 }
