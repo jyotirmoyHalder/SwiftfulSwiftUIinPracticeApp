@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import SwiftfulUI
 
 struct SpotifyHomeView: View {
     
     @State private var currentUser: User? = nil
     @State private var selectedCategory: Category? = nil
+    @State private var products: [Product] = []
     
     var body: some View {
         ZStack {
@@ -19,6 +21,11 @@ struct SpotifyHomeView: View {
             ScrollView {
                 LazyVStack(spacing: 1, pinnedViews: [.sectionHeaders]) {
                     Section {
+                        VStack {
+                            recentsSection
+                        }
+                        .padding(.horizontal, 16)
+                        
                         ForEach(0..<20) { _ in
                             Rectangle()
                                 .fill(Color.red)
@@ -42,7 +49,7 @@ struct SpotifyHomeView: View {
     private func getData() async {
         do {
             currentUser = try await DatabaseHelper().getUsers().last
-//            products = try await DatabaseHelper().getProducts()
+            products = try await Array(DatabaseHelper().getProducts().prefix(8))
         } catch {
             
         }
@@ -81,6 +88,15 @@ struct SpotifyHomeView: View {
         .padding(.vertical, 24)
         .padding(.horizontal, 8)
         .background(Color.spotifyBlack)
+    }
+    
+    private var recentsSection: some View {
+        NonLazyVGrid(columns: 2, alignment: .center, spacing: 10, items: products) { product in
+            SpotifyRecentCell(
+                imageName: product?.firstImage ?? Constants.randomImage,
+                title: product?.title ?? ""
+            )
+        }
     }
 }
 

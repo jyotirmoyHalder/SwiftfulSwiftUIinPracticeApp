@@ -25,6 +25,9 @@ struct Product: Identifiable, Codable, Equatable {
     let thumbnail: String?
     let images: [String]?
     
+    var firstImage: String {
+        images?.first ?? Constants.randomImage
+    }
     
     let averageRating: Double?
     
