@@ -16,7 +16,7 @@ struct DatabaseHelper {
         
         let (data, _) = try await URLSession.shared.data(from: url)
         let product = try JSONDecoder().decode(ProductArray.self, from: data)
-        return product.products ?? []
+        return product.products
     }
     
     
