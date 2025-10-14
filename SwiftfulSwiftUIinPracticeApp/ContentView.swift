@@ -17,7 +17,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             ForEach(products) { product in
-                Text(product.title ?? "")
+                Text(product.title)
                     .foregroundStyle(.spotifyGreen)
             }
         }

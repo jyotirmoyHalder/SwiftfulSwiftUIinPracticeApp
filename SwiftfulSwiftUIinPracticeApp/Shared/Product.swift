@@ -8,70 +8,32 @@
 import Foundation
 
 struct ProductArray: Codable {
-    let products: [Product]?
-    let total, skip, limit: Int?
+    let products: [Product]
+    let total, skip, limit: Int
 }
 
-struct Product: Identifiable, Codable, Equatable {
+struct Product: Codable, Identifiable {
     let id: Int
-    let title: String?
-    let category: String?
-    let description: String?
-    let price: Double?
-    let discountPercentage: Double?
-    let reviews: [Review]?
-    let stock: Int?
-    let brand: String?
-    let thumbnail: String?
-    let images: [String]?
+    let title, description: String
+    let price: Double // Double not Int
+    let discountPercentage, rating: Double
+    let stock: Int
+    let brand: String? // <- Optional
+    let category: String
+    let thumbnail: String
+    let images: [String]
     
     var firstImage: String {
-        images?.first ?? Constants.randomImage
+        images.first ?? Constants.randomImage
     }
     
-    let averageRating: Double?
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case title
-        case description
-        case price
-        case discountPercentage
-        case reviews
-        case stock
-        case brand
-        case category
-        case thumbnail
-        case images
-        
-        case averageRating = "averageRating"
-
-    }
-    
-    static func == (lhs: Product, rhs: Product) -> Bool {
-        return lhs.id == rhs.id
-    }
-    
-}
-
-// MARK: - Review
-struct Review: Codable {
-    let rating: Int?
-    let comment: String?
-    let date: CreatedAt?
-    let reviewerName: String?
-    let reviewerEmail: String?
-
-    enum CodingKeys: String, CodingKey {
-        case rating
-        case comment
-        case date = "created_at"   // 👈 change this to your actual JSON key
-        case reviewerName = "reviewer_name"
-        case reviewerEmail = "reviewer_email"
+    var _brand: String {
+        brand ?? ""
     }
 }
 
-// MARK: - CreatedAt
-enum CreatedAt: String, Codable {
-    case the20250430T094102053Z = "2025-04-30T09:41:02.053Z"
+struct ProductRow: Identifiable {
+    let id = UUID().uuidString
+    let title: String
+    let products: [Product]
 }
