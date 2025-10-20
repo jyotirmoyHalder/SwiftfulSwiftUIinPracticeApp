@@ -6,15 +6,54 @@
 //
 
 import SwiftUI
+import SwiftfulUI
 
 struct NetflixHomeView: View {
     
     @State private var filters = FilterModel.mockArray
     @State private var selectedFilter: FilterModel? = nil
+    @State private var fullHeaderSize: CGSize = .zero
+    
+    @State private var heroProduct: Product? = nil
+    @State private var currentUser: User? = .mock
+    @State private var productRows: [ProductRow] = []
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             Color.netflixBlack.ignoresSafeArea()
+            
+            ScrollView {
+                VStack(spacing: 8) {
+                    Rectangle()
+                        .opacity(0)
+                        .frame(height: fullHeaderSize.height)
+                    
+                    if let heroProduct {
+                        NetflixHeroCell(
+                            imageName: heroProduct.firstImage,
+                            isNetflixFlim: true,
+                            title: heroProduct.title,
+                            categories: [heroProduct.category.capitalized, heroProduct.brand ?? ""],
+                            onBackgroundPressed: {
+                                
+                            },
+                            onPlayPressed: {
+                                
+                            },
+                            onMyListPressed: {
+                                
+                            }
+                        )
+                    }
+                    
+                    ForEach(0..<20) { _ in
+                        Rectangle()
+                            .fill(Color.red)
+                            .frame(height: 200)
+                    }
+                }
+            }
+            .scrollIndicators(.hidden)
             
             VStack(spacing: 0) {
                 header
@@ -30,12 +69,37 @@ struct NetflixHomeView: View {
                         selectedFilter = nil
                     }
                 )
-                .padding(.top)
-                
-                Spacer()
+                .padding(.top )
+            }
+            .background(Color.blue)
+            .readingFrame { frame in
+                fullHeaderSize = frame.size
             }
         }
         .foregroundStyle(.netflixWhite)
+        .task {
+            await getData()
+        }
+        .toolbarVisibility(.hidden, for: .navigationBar)
+    }
+    
+    private func getData() async {
+        guard productRows.isEmpty else { return }
+        do {
+            currentUser = try await DatabaseHelper().getUsers().last
+            let products = try await Array(DatabaseHelper().getProducts().prefix(8))
+            heroProduct = products.first
+            
+            var rows: [ProductRow] = []
+            let allBrands = Set(products.map({ $0.brand }))
+            for brand in allBrands {
+//                let products = self.products.filter({ $0.category == category })
+                rows.append(ProductRow(title: brand!.capitalized , products: products))
+            }
+            productRows = rows
+        } catch {
+            
+        }
     }
     
     private var header: some View {
