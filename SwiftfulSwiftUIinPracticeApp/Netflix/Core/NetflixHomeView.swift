@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct NetflixHomeView: View {
+    
+    @State private var filters = FilterModel.mockArray
+    @State private var selectedFilter: FilterModel? = nil
+    
     var body: some View {
         ZStack {
             Color.netflixBlack.ignoresSafeArea()
@@ -15,6 +19,18 @@ struct NetflixHomeView: View {
             VStack(spacing: 0) {
                 header
                     .padding(.horizontal, 16)
+                
+                NetflixFilterBarView(
+                    filters: filters,
+                    selectedFilter: selectedFilter,
+                    onFilterPressed: { newFilter in
+                        selectedFilter = newFilter
+                    },
+                    onXMarkPressed: {
+                        selectedFilter = nil
+                    }
+                )
+                .padding(.top)
                 
                 Spacer()
             }

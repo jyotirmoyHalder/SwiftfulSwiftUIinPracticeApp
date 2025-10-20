@@ -23,7 +23,8 @@ struct FilterModel: Hashable, Equatable {
 struct NetflixFilterBarView: View {
     
     var filters: [FilterModel] = FilterModel.mockArray
-    @State private var selectedFilter: FilterModel? = nil
+    var selectedFilter: FilterModel? = nil
+    var onFilterPressed: ((FilterModel) -> Void)? = nil
     var onXMarkPressed: (() -> Void)? = nil
     
     var body: some View {
@@ -41,23 +42,48 @@ struct NetflixFilterBarView: View {
                          .onTapGesture {
                              onXMarkPressed?()
                          }
+                         .transition(AnyTransition.move(edge: .leading))
+                         .padding(.leading, 16)
                 }
                 
                 ForEach(filters, id: \.self) { filter in
-                    NetflixFilterCell(
-                        title: filter.title,
-                        isDropdown: filter.isDropdown,
-                        isSelected: selectedFilter == filter
-                    )
-                    .background(Color.black.opacity(0.001))
-                    .onTapGesture {
-                        selectedFilter = filter
+                    if selectedFilter == nil || selectedFilter == filter {
+                        NetflixFilterCell(
+                            title: filter.title,
+                            isDropdown: filter.isDropdown,
+                            isSelected: selectedFilter == filter
+                        )
+                        .background(Color.black.opacity(0.001))
+                        .onTapGesture {
+                            onFilterPressed?(filter)
+                        }
+                        .padding(.leading, ((selectedFilter == nil) && filter == filters.first) ? 16 : 0)
                     }
                 }
             }
             .padding(.vertical, 4)
         }
         .scrollIndicators(.hidden)
+        .animation(.bouncy, value: selectedFilter)
+    }
+}
+
+fileprivate struct NetflixFilterBarViewPreview: View {
+    
+    @State private var filters = FilterModel.mockArray
+    @State private var selectedFilter: FilterModel? = nil
+    
+    var body: some View {
+        NetflixFilterBarView(
+            filters: filters,
+            selectedFilter: selectedFilter) { newFilter in
+                Task {
+                    try? await Task.sleep(nanoseconds: 3_000_000_000)
+                    selectedFilter = newFilter
+                }
+            } onXMarkPressed: {
+                selectedFilter = nil
+            }
     }
 }
 
@@ -65,6 +91,6 @@ struct NetflixFilterBarView: View {
     ZStack {
         Color.black.ignoresSafeArea()
         
-        NetflixFilterBarView()
+        NetflixFilterBarViewPreview()
     }
 }
