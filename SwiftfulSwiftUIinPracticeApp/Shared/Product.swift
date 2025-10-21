@@ -27,6 +27,10 @@ struct Product: Codable, Identifiable {
         images.first ?? Constants.randomImage
     }
     
+    let recentlyAdded: Bool = {
+        return Int.random(in: 1...3) == 1
+    }()
+    
     var _brand: String {
         brand ?? ""
     }
