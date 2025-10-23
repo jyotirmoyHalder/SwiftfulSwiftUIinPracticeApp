@@ -7,8 +7,11 @@
 
 import SwiftUI
 import SwiftfulUI
+import SwiftfulRouting
 
 struct NetflixHomeView: View {
+    
+    @Environment(\.router) var router
     
     @State private var filters = FilterModel.mockArray
     @State private var selectedFilter: FilterModel? = nil
@@ -117,11 +120,20 @@ struct NetflixHomeView: View {
         }
     }
     
+    private func onProductPressed(product: Product) {
+        router.showScreen(.sheet) { _ in
+            NetflixMovieDetailsView(product: product)
+        }
+    }
+    
     private var header: some View {
         HStack(spacing: 0) {
             Text("For You")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.title)
+                .onTapGesture {
+                    router.dismissScreen()
+                }
             
             HStack(spacing: 16) {
                 Image(systemName: "tv.badge.wifi")
@@ -145,10 +157,10 @@ struct NetflixHomeView: View {
             title: product.title,
             categories: [product.category.capitalized, product.brand ?? ""],
             onBackgroundPressed: {
-                
+                onProductPressed(product: product)
             },
             onPlayPressed: {
-                
+                onProductPressed(product: product)
             },
             onMyListPressed: {
                 
@@ -196,6 +208,9 @@ struct NetflixHomeView: View {
                                     isRecentlyAdded: product.recentlyAdded,
                                     topTenRanking: rowIndex == 1 ? (index + 1) : nil
                                 )
+                                .onTapGesture {
+                                    onProductPressed(product: product)
+                                }
                             }
                         }
                         .padding(.horizontal, 16)
@@ -207,5 +222,7 @@ struct NetflixHomeView: View {
 }
 
 #Preview {
-    NetflixHomeView()
+    RouterView { _ in
+        NetflixHomeView()
+    }
 }
